@@ -39,15 +39,15 @@ def basa(s):
         w2 = np.zeros_like(lis)
         w1[0:ind] = lis[0:ind]
         w2[ind:] = lis[ind:]
+        # print(w2)
         w1 = sorted(enumerate(w1), key=lambda p: abs(p[1] - mx * tgd))
         w2 = sorted(enumerate(w2), key=lambda p: abs(p[1] - mx * tgd))
-        # print(w)
         part_array.append([w1[0][1], x[names[i]][w1[0][0] + 1], w2[0][1], x[names[i]][w2[0][0] + 1]])
 
     return x, names_out, max_array, part_array
 
 
-xsav, name_sav, array_sav, part_sav = basa("САФ")
+xsav, name_sav, array_sav, part_sav = basa("САТ")
 lsav = len(array_sav)
 # print(array_sav)
 print(name_sav)
@@ -55,7 +55,7 @@ print(lsav)
 
 xoil, name_oil, array_oil, part_oil = basa("Нефти_нов")
 loil = len(array_oil)
-print(xoil)
+# print(xoil["Арланское скв.456"].to_string())
 print(array_oil)
 print(part_oil)
 print(part_oil[0][0])
