@@ -27,22 +27,38 @@ def basa(s):
     # graph(x, names)
 
     max_array = []
+    names_out = []
     for i in range(0, len(names) - 1, 2):
         lis = list(x[names[i + 1]][1:])
         mx = max(lis)
         ind = lis.index(mx)
         max_array.append([names[i], mx, ind, x[names[i + 1]][ind + 1], x[names[i]][ind + 1]])
-    # print(max_array)
+        names_out.append(names[i])
+        # print(max_array)
 
-    return x, names, max_array
+    return x, names_out, max_array
 
 
 xsav, name_sav, array_sav = basa("САФ")
-print(array_sav)
-print(len(array_sav))
+lsav = len(array_sav)
+# print(array_sav)
+print(name_sav)
+print(lsav)
 
 xoil, name_oil, array_oil = basa("Нефти_нов")
+loil = len(array_oil)
 print(array_oil)
 
-#for i in range(len(array_sav)):
- #   for j in range(len(array_oil)):
+df = np.zeros((lsav, loil))
+# print(df)
+df = pd.DataFrame(df, index=name_sav, columns=name_oil)
+
+# print(df)
+
+# print(df[name_oil[0]][name_sav[0]])
+
+for i in range(len(array_sav)):
+    for j in range(len(array_oil)):
+        df[name_oil[j]][name_sav[i]] = np.fabs(array_oil[j][4] - array_sav[i][4])
+
+print(df)
