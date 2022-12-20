@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 loc = 'PAV.xlsx'
+tgd = 0.7
 
 
 def graph(q, str_name):
@@ -20,12 +21,10 @@ def graph(q, str_name):
 
 def basa(s):
     x = pd.read_excel(loc, sheet_name=s)
-    x.columns
-    x['Unnamed: 1'][1:]
     names = x.columns.tolist()
     # print(names)
 
-    #graph(x, names)
+    # graph(x, names)
 
     max_array = []
     for i in range(0, len(names) - 1, 2):
@@ -35,11 +34,15 @@ def basa(s):
         max_array.append([names[i], mx, ind, x[names[i + 1]][ind + 1], x[names[i]][ind + 1]])
     # print(max_array)
 
-    return max_array
+    return x, names, max_array
 
 
-array_sav = basa("САФ")
+xsav, name_sav, array_sav = basa("САФ")
 print(array_sav)
+print(len(array_sav))
 
-array_oil = basa("Нефти_нов")
+xoil, name_oil, array_oil = basa("Нефти_нов")
 print(array_oil)
+
+#for i in range(len(array_sav)):
+ #   for j in range(len(array_oil)):
