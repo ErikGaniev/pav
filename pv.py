@@ -28,26 +28,29 @@ def basa(s):
 
     max_array = []
     names_out = []
+    part_array = []
     for i in range(0, len(names) - 1, 2):
         lis = list(x[names[i + 1]][1:])
         mx = max(lis)
         ind = lis.index(mx)
         max_array.append([names[i], mx, ind, x[names[i + 1]][ind + 1], x[names[i]][ind + 1]])
         names_out.append(names[i])
-        # print(max_array)
+        w = sorted(enumerate(lis), key=lambda p: abs(p[1] - mx * tgd))
+        part_array.append((w[0][1], x[names[i]][w[0][0] + 1], w[1][1], x[names[i]][w[1][0] + 1]))
 
-    return x, names_out, max_array
+    return x, names_out, max_array, part_array
 
 
-xsav, name_sav, array_sav = basa("САФ")
+xsav, name_sav, array_sav, part_sav = basa("САФ")
 lsav = len(array_sav)
 # print(array_sav)
 print(name_sav)
 print(lsav)
 
-xoil, name_oil, array_oil = basa("Нефти_нов")
+xoil, name_oil, array_oil, part_oil = basa("Нефти_нов")
 loil = len(array_oil)
 print(array_oil)
+print(part_oil)
 
 df = np.zeros((lsav, loil))
 # print(df)
