@@ -3,9 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-loc = 'PAV.xlsx'
-tgd = 0.7
-
 
 def graph(q, str_name):
     plt.figure()
@@ -19,13 +16,13 @@ def graph(q, str_name):
     plt.show()
 
 
-def basa(s):
-    x = pd.read_excel(loc, sheet_name=s)
+def basa(loc_func, s):
+    x = pd.read_excel(loc_func, sheet_name=s)
     names = x.columns.tolist()
     # print(names)
 
     # graph(x, names)
-
+    tgd = 0.7
     max_array = []
     names_out = []
     part_array = []
@@ -47,55 +44,68 @@ def basa(s):
     return x, names_out, max_array, part_array
 
 
-label_pav = "САТ"
-label_oil = "Нефти_нов"
-xsav, name_sav, array_sav, part_sav = basa(label_pav)
-lsav = len(array_sav)
-# print(array_sav)
-print(name_sav)
-# print(lsav)
+def main():
+    loc_inp = input("Введите директорию exel таблицы: ")
+    # tgd = 0.7
 
-xoil, name_oil, array_oil, part_oil = basa(label_oil)
-loil = len(array_oil)
-# print(xoil["Арланское скв.456"].to_string())
-# print(array_oil)
-print(part_oil)
-# print(part_oil[0][0])
+    label_pav_inp = input("Введите название страницы пава: ")
+    label_oil_inp = input("Введите название страницы нефти: ")
 
-# graph(xoil, xoil.columns.tolist())
-df1 = np.zeros((lsav, loil))
-df1 = pd.DataFrame(df1, index=name_sav, columns=name_oil)
+    loc = 'PAV.xlsx'
+    tgd = 0.7
 
-for i in range(len(array_sav)):
-    for j in range(len(array_oil)):
-        df1[name_oil[j]][name_sav[i]] = np.fabs(array_oil[j][4] - array_sav[i][4])
+    label_pav = "САТ"
+    label_oil = "Нефти_нов"
+    xsav, name_sav, array_sav, part_sav = basa(loc, label_pav)
+    lsav = len(array_sav)
+    # print(array_sav)
+    print(name_sav)
+    # print(lsav)
 
-print(df1)
+    xoil, name_oil, array_oil, part_oil = basa(loc, label_oil)
+    loil = len(array_oil)
+    # print(xoil["Арланское скв.456"].to_string())
+    # print(array_oil)
+    print(part_oil)
+    # print(part_oil[0][0])
 
-df2 = np.zeros((lsav, loil))
-df2 = pd.DataFrame(df2, index=name_sav, columns=name_oil)
+    # graph(xoil, xoil.columns.tolist())
+    df1 = np.zeros((lsav, loil))
+    df1 = pd.DataFrame(df1, index=name_sav, columns=name_oil)
 
-for i in range(len(array_sav)):
-    for j in range(len(array_oil)):
-        if part_oil[j][3] <= array_sav[i][4] <= part_oil[j][1]:
-            df2[name_oil[j]][name_sav[i]] = 1
-        else:
-            df2[name_oil[j]][name_sav[i]] = 0
-print(df2.to_string())
+    for i in range(len(array_sav)):
+        for j in range(len(array_oil)):
+            df1[name_oil[j]][name_sav[i]] = np.fabs(array_oil[j][4] - array_sav[i][4])
 
-df3 = np.zeros((lsav, loil))
-df3 = pd.DataFrame(df3, index=name_sav, columns=name_oil)
+    print(df1)
 
-print(part_sav[1][3], part_sav[1][1])
-for i in range(len(array_sav)):
-    for j in range(len(array_oil)):
-        if part_oil[j][3] <= part_sav[i][3] <= part_oil[j][1] or part_sav[i][3] <= part_oil[j][3] <= part_sav[i][1]:
-            df3[name_oil[j]][name_sav[i]] = 1
-        else:
-            df3[name_oil[j]][name_sav[i]] = 0
-print(df3)
+    df2 = np.zeros((lsav, loil))
+    df2 = pd.DataFrame(df2, index=name_sav, columns=name_oil)
 
-with pd.ExcelWriter(label_pav + '.xlsx') as writer:
-    df1.to_excel(writer, sheet_name='Sheet_name_1')
-    df2.to_excel(writer, sheet_name='Sheet_name_2')
-    df3.to_excel(writer, sheet_name='Sheet_name_3')
+    for i in range(len(array_sav)):
+        for j in range(len(array_oil)):
+            if part_oil[j][3] <= array_sav[i][4] <= part_oil[j][1]:
+                df2[name_oil[j]][name_sav[i]] = 1
+            else:
+                df2[name_oil[j]][name_sav[i]] = 0
+    print(df2.to_string())
+
+    df3 = np.zeros((lsav, loil))
+    df3 = pd.DataFrame(df3, index=name_sav, columns=name_oil)
+
+    print(part_sav[1][3], part_sav[1][1])
+    for i in range(len(array_sav)):
+        for j in range(len(array_oil)):
+            if part_oil[j][3] <= part_sav[i][3] <= part_oil[j][1] or part_sav[i][3] <= part_oil[j][3] <= part_sav[i][1]:
+                df3[name_oil[j]][name_sav[i]] = 1
+            else:
+                df3[name_oil[j]][name_sav[i]] = 0
+    print(df3)
+
+    with pd.ExcelWriter(label_pav + '.xlsx') as writer:
+        df1.to_excel(writer, sheet_name='Sheet_name_1')
+        df2.to_excel(writer, sheet_name='Sheet_name_2')
+        df3.to_excel(writer, sheet_name='Sheet_name_3')
+
+
+main()
