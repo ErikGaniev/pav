@@ -50,7 +50,7 @@ def main():
     # tgd = 0.7
 
     # label_pav = input("Введите название страницы пава: ")
-    label_pav = "САТ"
+    label_pav = "Составы"
 
     # label_oil = input("Введите название страницы нефти: ")
     label_oil = "Нефти_нов"
@@ -97,25 +97,30 @@ def main():
     # Задайте диапазон значений для отображения на цветовой карте от -1 до 1 и установите для аннотации (annot) значение True,
     # чтобы отобразить числовые значения корреляции на тепловой карте.
 
-    plt.figure(figsize=(16, 6))
-    heatmap = sns.heatmap(df2, annot=True, cmap='crest', cbar=False)
-    heatmap.set_title(label_pav + " проверка эфективно по 2 методу", fontdict={'fontsize': 12}, pad=12)
-    heatmap.xaxis.tick_top()
-    plt.show()
-
     # print(df2)
 
     df3 = np.zeros((lsav, loil))
     df3 = pd.DataFrame(df3, index=name_sav, columns=name_oil)
-
+    df4 = df2.copy()
     # print(part_sav[1][3], part_sav[1][1])
     for i in range(len(array_sav)):
         for j in range(len(array_oil)):
             if part_oil[j][3] <= part_sav[i][3] <= part_oil[j][1] or part_sav[i][3] <= part_oil[j][3] <= part_sav[i][1]:
+                if df4[name_oil[j]][name_sav[i]] == 0:
+                    df4[name_oil[j]][name_sav[i]] = 3
+                if df4[name_oil[j]][name_sav[i]] == 1:
+                    df4[name_oil[j]][name_sav[i]] = 2
                 df3[name_oil[j]][name_sav[i]] = 1
             else:
                 df3[name_oil[j]][name_sav[i]] = 0
-    # print(df3)
+
+    # print(df4)
+    plt.figure(figsize=(16, 6))
+    heatmap = sns.heatmap(df4, annot=True, cmap='crest', cbar=False)
+    heatmap.set_title(label_pav + " проверка эфективно по 2 методу", fontdict={'fontsize': 12}, pad=12)
+    heatmap.xaxis.tick_top()
+    plt.savefig(label_pav)
+    # plt.show()
 
     with pd.ExcelWriter(label_pav + '.xlsx') as writer:
         df1.to_excel(writer, sheet_name='Sheet_name_1')
