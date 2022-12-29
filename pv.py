@@ -47,19 +47,22 @@ def basa(s):
     return x, names_out, max_array, part_array
 
 
-xsav, name_sav, array_sav, part_sav = basa("САТ")
+label_pav = "САТ"
+label_oil = "Нефти_нов"
+xsav, name_sav, array_sav, part_sav = basa(label_pav)
 lsav = len(array_sav)
 # print(array_sav)
 print(name_sav)
-print(lsav)
+# print(lsav)
 
-xoil, name_oil, array_oil, part_oil = basa("Нефти_нов")
+xoil, name_oil, array_oil, part_oil = basa(label_oil)
 loil = len(array_oil)
 # print(xoil["Арланское скв.456"].to_string())
-print(array_oil)
+# print(array_oil)
 print(part_oil)
-print(part_oil[0][0])
-graph(xoil, xoil.columns.tolist())
+# print(part_oil[0][0])
+
+# graph(xoil, xoil.columns.tolist())
 df1 = np.zeros((lsav, loil))
 df1 = pd.DataFrame(df1, index=name_sav, columns=name_oil)
 
@@ -74,15 +77,22 @@ df2 = pd.DataFrame(df2, index=name_sav, columns=name_oil)
 
 for i in range(len(array_sav)):
     for j in range(len(array_oil)):
-        if part_oil[j][1] > part_oil[j][3]:
-            swap = part_oil[j][3]
-            part_oil[j][3] = part_oil[j][1]
-            part_oil[j][1] = swap
-            swap = part_oil[j][2]
-            part_oil[j][2] = part_oil[j][0]
-            part_oil[j][0] = swap
-        if part_oil[j][1] <= array_sav[i][4] <= part_oil[j][3]:
+        if part_oil[j][3] <= array_sav[i][4] <= part_oil[j][1]:
             df2[name_oil[j]][name_sav[i]] = 1
         else:
             df2[name_oil[j]][name_sav[i]] = 0
 print(df2.to_string())
+
+df3 = np.zeros((lsav, loil))
+df3 = pd.DataFrame(df3, index=name_sav, columns=name_oil)
+
+print(part_sav[1][3], part_sav[1][1])
+for i in range(len(array_sav)):
+    for j in range(len(array_oil)):
+        if part_oil[j][3] <= part_sav[i][3] <= part_oil[j][1] or part_sav[i][3] <= part_oil[j][3] <= part_sav[i][1]:
+            df3[name_oil[j]][name_sav[i]] = 1
+        else:
+            df3[name_oil[j]][name_sav[i]] = 0
+print(df3)
+
+df1.to_excel(label_pav + "1.xlsx")
