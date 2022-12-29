@@ -95,4 +95,7 @@ for i in range(len(array_sav)):
             df3[name_oil[j]][name_sav[i]] = 0
 print(df3)
 
-df1.to_excel(label_pav + "1.xlsx")
+with pd.ExcelWriter(label_pav + '.xlsx') as writer:
+    df1.to_excel(writer, sheet_name='Sheet_name_1')
+    df2.to_excel(writer, sheet_name='Sheet_name_2')
+    df3.to_excel(writer, sheet_name='Sheet_name_3')
