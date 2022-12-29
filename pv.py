@@ -45,15 +45,15 @@ def basa(loc_func, s):
 
 
 def main():
-    loc = input("Введите директорию exel таблицы: ")
-    # loc = 'PAV.xlsx'
+    # loc = input("Введите директорию exel таблицы: ")
+    loc = 'PAV.xlsx'
     # tgd = 0.7
 
-    label_pav = input("Введите название страницы пава: ")
-    # label_pav = "САТ"
+    # label_pav = input("Введите название страницы пава: ")
+    label_pav = "САТ"
 
-    label_oil = input("Введите название страницы нефти: ")
-    # label_oil = "Нефти_нов"
+    # label_oil = input("Введите название страницы нефти: ")
+    label_oil = "Нефти_нов"
 
     tgd = 0.7
     # label_names = ["САФ", "САТ", "Сульфанор Б2", "АОС", "Составы"]
@@ -91,6 +91,19 @@ def main():
             else:
                 df2[name_oil[j]][name_sav[i]] = 0
     # print(df2.to_string())
+
+    # Сохраните объект тепловой карты в переменной, чтобы легко получить к нему доступ,
+    # когда вы захотите включить дополнительные функции (например, отображение заголовка).
+    # Задайте диапазон значений для отображения на цветовой карте от -1 до 1 и установите для аннотации (annot) значение True,
+    # чтобы отобразить числовые значения корреляции на тепловой карте.
+
+    plt.figure(figsize=(16, 6))
+    heatmap = sns.heatmap(df2, annot=True, cmap='crest', cbar=False)
+    heatmap.set_title(label_pav + " проверка эфективно по 2 методу", fontdict={'fontsize': 12}, pad=12)
+    heatmap.xaxis.tick_top()
+    plt.show()
+
+    # print(df2)
 
     df3 = np.zeros((lsav, loil))
     df3 = pd.DataFrame(df3, index=name_sav, columns=name_oil)
