@@ -45,17 +45,19 @@ def basa(loc_func, s):
 
 
 def main():
-    loc_inp = input("Введите директорию exel таблицы: ")
+    loc = input("Введите директорию exel таблицы: ")
+    # loc = 'PAV.xlsx'
     # tgd = 0.7
 
-    label_pav_inp = input("Введите название страницы пава: ")
-    label_oil_inp = input("Введите название страницы нефти: ")
+    label_pav = input("Введите название страницы пава: ")
+    # label_pav = "САТ"
 
-    loc = 'PAV.xlsx'
+    label_oil = input("Введите название страницы нефти: ")
+    # label_oil = "Нефти_нов"
+
     tgd = 0.7
+    # label_names = ["САФ", "САТ", "Сульфанор Б2", "АОС", "Составы"]
 
-    label_pav = "САТ"
-    label_oil = "Нефти_нов"
     xsav, name_sav, array_sav, part_sav = basa(loc, label_pav)
     lsav = len(array_sav)
     # print(array_sav)
